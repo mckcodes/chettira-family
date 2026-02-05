@@ -1,89 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chettira Family Heritage — Home</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chettira Family History</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f5f5f5;
+      line-height: 1.6;
+    }
+
+    header {
+      background: rgba(0,0,0,0.6);
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    header p {
+      opacity: 0.8;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      background: rgba(0,0,0,0.4);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #4dd0e1;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 3rem 1.5rem;
+    }
+
+    h2 {
+      border-left: 5px solid #4dd0e1;
+      padding-left: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      margin-bottom: 2rem;
+    }
+
+    /* Family Tree */
+    .tree {
+      overflow-x: auto;
+      padding: 1rem;
+    }
+
+    .tree ul {
+      padding-top: 20px;
+      position: relative;
+      transition: all 0.5s;
+      display: table;
+      margin: auto;
+    }
+
+    .tree li {
+      float: left;
+      text-align: center;
+      list-style-type: none;
+      position: relative;
+      padding: 20px 5px 0 5px;
+      transition: all 0.5s;
+    }
+
+    .tree li::before,
+    .tree li::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 1px solid #ccc;
+      width: 50%;
+      height: 20px;
+    }
+
+    .tree li::after {
+      right: auto;
+      left: 50%;
+      border-left: 1px solid #ccc;
+    }
+
+    .tree li:only-child::after,
+    .tree li:only-child::before {
+      display: none;
+    }
+
+    .tree li:only-child {
+      padding-top: 0;
+    }
+
+    .tree li:first-child::before,
+    .tree li:last-child::after {
+      border: 0 none;
+    }
+
+    .tree li:last-child::before {
+      border-right: 1px solid #ccc;
+      border-radius: 0 5px 0 0;
+    }
+
+    .tree li:first-child::after {
+      border-radius: 5px 0 0 0;
+    }
+
+    .tree ul ul::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      border-left: 1px solid #ccc;
+      width: 0;
+      height: 20px;
+    }
+
+    .tree li div {
+      border: 1px solid #4dd0e1;
+      padding: 10px 15px;
+      display: inline-block;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.6);
+      min-width: 120px;
+      font-size: 0.85rem;
+    }
+
+    footer {
+      background: rgba(0,0,0,0.7);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <div class="container">
-    <div class="brand">
-      <h1>Chettira Family Heritage</h1>
-    </div>
-    <nav aria-label="Primary">
-      <a href="index.html" aria-current="page">Home</a>
-      <a href="family-tree.html" >Family Tree</a>
-      <a href="history.html" >History</a>
-      <a href="festivals.html" >Festivals</a>
-      <a href="gallery.html" >Gallery</a>
-      <a href="documents.html" >Documents</a>
-      <a href="stories.html" >Stories</a>
-      <a href="contact.html" >Contact</a>
-    </nav>
-  </div>
-</header>
-<main>
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <h2>Welcome to Chettira Family</h2>
-        <p><strong>A Kodava family from Coorg, India</strong></p>
-        <p>Discover our family history, traditions, festivals, and memories preserved for future generations.</p>
-        <div class="cta">
-          <a class="btn" href="family-tree.html">Explore Family Tree</a>
-          <a class="btn secondary" href="history.html">Read Our History</a>
-        </div>
-      </div>
-      <div class="card">
-        <h3 style="margin-top:0">Quick links</h3>
-        <p class="kicker">Start with these popular sections.</p>
-        <ul class="list">
-          <li><a href="festivals.html">Festivals & traditions</a></li>
-          <li><a href="gallery.html">Photo memories</a></li>
-          <li><a href="documents.html">Documents & records</a></li>
-          <li><a href="stories.html">Stories & biographies</a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="grid">
-        <div class="col-6 card">
-          <h3>Our origins</h3>
-          <p class="kicker">A short introduction — replace this with your current GoDaddy text.</p>
-          <p>Write a brief summary about the Chettira family: ancestral place, notable elders, migration, values, and what this website preserves.</p>
-          <a class="btn secondary" href="history.html">Read more →</a>
-        </div>
-        <div class="col-6 card">
-          <h3>Upcoming / Important dates</h3>
-          <p class="kicker">Optional: keep a simple list (you can update anytime).</p>
-          <ul class="list">
-            <li>Festival: ______ (date)</li>
-            <li>Anniversary: ______ (date)</li>
-            <li>Family meet: ______ (date)</li>
-          </ul>
-        </div>
-        <div class="col-12">
-          <h3>Photo memories</h3>
-          <p class="kicker">Drop images into <code>assets/images</code> and link them from Gallery.</p>
-          <div class="gallery">
-            <div class="ph">Photo 1</div>
-            <div class="ph">Photo 2</div>
-            <div class="ph">Photo 3</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer>
-  <div class="container">
-    <small>© Chettira Family • Built with GitHub Pages</small>
+<header>
+  <h1>Chettira Family History</h1>
+  <p>Genealogy & Heritage Archive – Karnangeri Village</p>
+</header>
+
+<nav>
+  <a href="#about">About</a>
+  <a href="#history">History</a>
+  <a href="#tree">Family Tree</a>
+  <a href="#property">Property</a>
+  <a href="#legal">Legal</a>
+</nav>
+
+<section id="about">
+  <h2>About</h2>
+  <div class="card">
+    <p>This website documents the genealogy, property history, and legal evolution of the Chettira Family of Madikeri Taluk, Karnataka.</p>
+    <p>It is maintained for heritage preservation and future reference.</p>
   </div>
+</section>
+
+<section id="history">
+  <h2>Family History</h2>
+  <div class="card">
+    <ul>
+      <li>State-granted lands for services rendered</li>
+      <li>Oral partition among three brothers (~1920)</li>
+      <li>Major sale in 1958 (60 acres)</li>
+      <li>Maintenance division in 1976</li>
+      <li>Multiple bifurcations (1980–2018)</li>
+      <li>Final court settlement (2013)</li>
+    </ul>
+  </div>
+</section>
+
+<section id="tree">
+  <h2>Family Tree</h2>
+  <div class="card tree">
+
+    <ul>
+      <li>
+        <div>Chettira Ancestors</div>
+        <ul>
+          <li>
+            <div>Sri Bopaiah</div>
+            <ul>
+              <li>
+                <div>Sri Chinnappa</div>
+                <ul>
+                  <li><div>Devaiah</div></li>
+                  <li><div>Joyappa</div></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <div>Sri Subbaiah</div>
+            <ul>
+              <li>
+                <div>Sri Naniappa</div>
+                <ul>
+                  <li><div>Kariappa</div></li>
+                  <li><div>Madappa</div></li>
+                  <li><div>Sharada</div></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <div>Sri Chengappa</div>
+            <ul>
+              <li>
+                <div>Appaji</div>
+                <ul>
+                  <li><div>Kushalappa</div></li>
+                  <li><div>Kariappa</div></li>
+                  <li><div>Somaiah</div></li>
+                </ul>
+              </li>
+              <li>
+                <div>Devaiah</div>
+                <ul>
+                  <li><div>Sujatha</div></li>
+                  <li><div>Kalaiah</div></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+</section>
+
+<section id="property">
+  <h2>Property Records</h2>
+  <div class="card">
+    <p><strong>Original Surveys:</strong></p>
+    <ul>
+      <li>4/1 – 0.62 acres</li>
+      <li>4/2 – 121.70 acres</li>
+      <li>5 – 8.43 acres</li>
+    </ul>
+
+    <p><strong>Current Surveys:</strong></p>
+    <p>4/4, 4/7, 4/9, 4/10, 4/11, 4/12, 4/13</p>
+  </div>
+</section>
+
+<section id="legal">
+  <h2>Legal History</h2>
+  <div class="card">
+    <table style="width:100%; border-collapse: collapse;">
+      <tr style="border-bottom:1px solid #555;">
+        <th align="left">Case</th>
+        <th align="left">Court</th>
+        <th align="left">Year</th>
+        <th align="left">Result</th>
+      </tr>
+      <tr>
+        <td>OS 118/2000</td>
+        <td>Civil Judge</td>
+        <td>2004</td>
+        <td>Dismissed</td>
+      </tr>
+      <tr>
+        <td>RA 22/2004</td>
+        <td>Senior Judge</td>
+        <td>2010</td>
+        <td>Dismissed</td>
+      </tr>
+      <tr>
+        <td>RSA 1053/2010</td>
+        <td>High Court</td>
+        <td>2013</td>
+        <td>Final Settlement</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p>© Chettira Family Archives | For Private Reference Only</p>
 </footer>
+
 </body>
 </html>
