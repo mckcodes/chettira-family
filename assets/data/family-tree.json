@@ -68,7 +68,7 @@
                       "name": "Sadashiva",
                       "children": [
                         {
-                          "name": "Sumithra",
+                          "name": "Wife: Sumithra",
                           "children": [
                             { "name": "Sanchan Somanna" },
                             { "name": "Samarth Poovanna" }
@@ -101,7 +101,7 @@
                   "name": "Kariappa",
                   "children": [
                     {
-                      "name": "Meera",
+                      "name": "Wife: Meera",
                       "children": [
                         { "name": "Ponnanna" },
                         { "name": "Dechamma" },
@@ -143,10 +143,17 @@
                   "name": "Kushalappa",
                   "children": [
                     {
-                      "name": "Kaveramma",
+                      "name": "Wife: Kavery / K A Kaveramma",
                       "children": [
-                        { "name": "Mandanna" },
-                        { "name": "Bopanna" }
+                        {
+                            "name": "Shari / Mandanna C K",
+                            "photo": "assets/images/people/mandanna.jpg",
+                            "notes": "Optional note about this person.",
+                            "children": [
+                                { "name": "Wife: Vamshi / Kaveramma B G" },
+                            ]
+                        },
+                        { "name": "Bharath / Bopanna C K" }
                       ]
                     }
                   ]
