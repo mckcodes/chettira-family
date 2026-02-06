@@ -11,13 +11,27 @@
   // Spouse detection in your JSON
   const SPOUSE_RE = /^(wife|husband)\s*:/i;
 
-  // Default avatar image (optional). If this file doesn't exist, we'll fallback to initials.
-  const DEFAULT_AVATAR = "assets/images/people/default.png";
+// Default avatar image (optional). If this file doesn't exist, initials will show.
+const DEFAULT_AVATAR = "assets/images/people/default.png";
 
-  // Avatar sizing
-  const R_PERSON = 62;  // main node avatar radius
-  const R_SPOUSE = 58;  // spouse node avatar radius
-  const RING = 5;       // white ring thickness
+// Avatar sizing (BIGGER)
+const R_PERSON = 62;  // base person radius
+const R_SPOUSE = 58;  // base spouse radius
+const RING = 4;       // white ring thickness
+
+// Root/top ancestors slightly larger
+const ROOT_BOOST = 8;     // root node size boost
+const TOP_BOOST = 5;      // depth-1 boost (Sri Bopaiah/Subbaiah/Chengappa)
+const SPOUSE_BOOST = 2;   // spouse boost so spouse avatars don't feel too small
+
+// Hover animation
+const HOVER_DELTA = 4;      // how much avatar grows on hover
+const HOVER_MS = 120;       // hover transition duration (ms)
+
+// Font sizes
+const NAME_FONT_MAIN = 15;  // names (default)
+const NAME_FONT_TOP = 16;   // root/top branch names
+const ROLE_FONT = 12;       // spouse role label (Wife/Husband)
 
   function isSpouseNodeName(name) {
     return SPOUSE_RE.test((name || "").trim());
