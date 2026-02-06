@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Family Tree — Chettira Family Heritage</title>
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    /* Tree container polish */
+    #tree {
+      height: 75vh;
+      min-height: 520px;
+      border: 1px solid var(--border, #e2e8f0);
+      border-radius: 12px;
+      background: #ffffff;
+      overflow: hidden;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+    }
+    .tree-help {
+      color: #475569;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+    .tree-help code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; }
+  </style>
 </head>
 
 <body>
@@ -29,269 +48,33 @@
 <main>
   <section class="section">
     <div class="container">
+
       <div class="card">
-        <h2 style="margin-top:0">Chettira Family Tree (Simplified)</h2>
-
+        <h2 style="margin-top:0">Interactive Family Tree</h2>
         <p class="kicker">
-          Branch-wise representation of the Chettira Family lineage (simplified).
+          Click a person to expand/collapse. Use mouse/trackpad to zoom and pan.
         </p>
 
+        <div id="tree"></div>
+        <div class="tree-help">
+          Tips: Click nodes to expand/collapse • Zoom with <code>Ctrl + scroll</code> (or pinch) • Drag to pan
+        </div>
+
+        <hr />
+
+        <h3>Branch-wise Reference (Simplified)</h3>
+        <p class="kicker">
+          This section can remain as a textual reference alongside the visualization.
+        </p>
+
+        <!-- Keep your existing list here (optional) -->
         <p>
-          This page presents a simplified, branch-wise representation of the Chettira Family
-          lineage, tracing descendants from the original ancestors of Karnangeri village.
-          The structure reflects traditional Kodava family lineages and oral history records.
+          If you want, I can also auto-generate this reference list from the same JSON
+          so you don’t maintain two versions.
         </p>
-
-        <hr />
-
-        <h3>Generation 1 – Common Ancestors</h3>
-        <ul class="list">
-          <li><strong>Chettira Family</strong> (Original Grantees)
-            <ul class="list">
-              <li>Sri Bopaiah</li>
-              <li>Sri Subbaiah</li>
-              <li>Sri Chengappa</li>
-            </ul>
-          </li>
-        </ul>
-
-        <h3>Generation 2 – Primary Branches</h3>
-
-        <h4>1. Bopaiah Branch</h4>
-        <ul class="list">
-          <li>Sri Bopaiah
-            <ul class="list">
-              <li>Sri Chinnappa</li>
-            </ul>
-          </li>
-        </ul>
-
-        <h4>2. Subbaiah Branch</h4>
-        <ul class="list">
-          <li>Sri Subbaiah
-            <ul class="list">
-              <li>Sri Naniappa</li>
-            </ul>
-          </li>
-        </ul>
-
-        <h4>3. Chengappa Branch</h4>
-        <ul class="list">
-          <li>Sri Chengappa
-            <ul class="list">
-              <li>Sri Appaji</li>
-              <li>Sri Devaiah</li>
-            </ul>
-          </li>
-        </ul>
-
-        <hr />
-
-        <h3>Generation 3 &amp; 4 – Main Lineages</h3>
-
-        <h3>A. Chinnappa Branch</h3>
-        <ul class="list">
-          <li>Sri Chinnappa
-            <ul class="list">
-              <li>Sri Devaiah
-                <ul class="list">
-                  <li>Kuttappa</li>
-                  <li>Ganapathy
-                    <ul class="list">
-                      <li><em>Wife:</em> Chembavva
-                        <ul class="list">
-                          <li>Subramani</li>
-                          <li>Belliappa</li>
-                          <li>Geetha</li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>Uthappa
-                    <ul class="list">
-                      <li><em>Wife:</em> Poovavva
-                        <ul class="list">
-                          <li>Chermanna</li>
-                          <li>Nethravathy</li>
-                          <li>Gangamma
-                            <ul class="list">
-                              <li>Ganapathy</li>
-                              <li>Sangeetha</li>
-                              <li>Mandanna</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-
-              <li>Sri Joyappa
-                <ul class="list">
-                  <li><em>Wife:</em> Chinnamma
-                    <ul class="list">
-                      <li>Nanjappa
-                        <ul class="list">
-                          <li>Rani
-                            <ul class="list">
-                              <li>Dechamma</li>
-                              <li>Poonacha</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>Sadashiva
-                        <ul class="list">
-                          <li>Sumithra
-                            <ul class="list">
-                              <li>Sanchan Somanna</li>
-                              <li>Samarth Poovanna</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>Bollamma</li>
-                      <li>Seethamma</li>
-                      <li>Gangamma</li>
-                      <li>Gowramma</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-
-            </ul>
-          </li>
-        </ul>
-
-        <h3>B. Subbaiah → Naniappa Branch</h3>
-        <ul class="list">
-          <li>Sri Subbaiah
-            <ul class="list">
-              <li>Sri Naniappa
-                <ul class="list">
-                  <li><em>Wife:</em> Ponnavva
-                    <ul class="list">
-                      <li>Kariappa
-                        <ul class="list">
-                          <li>Meera
-                            <ul class="list">
-                              <li>Ponnanna</li>
-                              <li>Dechamma</li>
-                              <li>Muthamma</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-
-                      <li>Madappa
-                        <ul class="list">
-                          <li>Devaki
-                            <ul class="list">
-                              <li>Poovamma</li>
-                              <li>Dhyan Chengappa</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-
-                      <li>Sharada</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-
-        <h3>C. Chengappa → Appaji Branch</h3>
-        <ul class="list">
-          <li>Sri Chengappa
-            <ul class="list">
-              <li>Sri Appaji
-                <ul class="list">
-                  <li><em>Wife:</em> Mayamma / Muthavva
-                    <ul class="list">
-                      <li>Ganapathy (unmarried, deceased)</li>
-
-                      <li>Kushalappa
-                        <ul class="list">
-                          <li>Kaveramma
-                            <ul class="list">
-                              <li>Mandanna</li>
-                              <li>Bopanna</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-
-                      <li>Kariappa
-                        <ul class="list">
-                          <li>Gayathri
-                            <ul class="list">
-                              <li>Harshitha</li>
-                              <li>Grantha</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-
-                      <li>Somaiah
-                        <ul class="list">
-                          <li>Shyla
-                            <ul class="list">
-                              <li>Leelavathy</li>
-                              <li>Shruthi</li>
-                              <li>Chondamma</li>
-                              <li>Thangamma</li>
-                              <li>Bopaiah</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-
-                      <li>Gangamma</li>
-                      <li>Leelavathy</li>
-                      <li>Parvathy</li>
-                      <li>Yeshodha</li>
-                      <li>A Gangamma</li>
-                      <li>Jayanthi</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-
-        <h3>D. Chengappa → Devaiah Branch (Separate)</h3>
-        <ul class="list">
-          <li>Sri Chengappa
-            <ul class="list">
-              <li>Sri Devaiah
-                <ul class="list">
-                  <li>Bhagyavathy
-                    <ul class="list">
-                      <li>Sujatha
-                        <ul class="list">
-                          <li><em>Husband:</em> Kuttappa TA
-                            <ul class="list">
-                              <li>Poovamma TK</li>
-                              <li>Ganapathy TK</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>Kalaiah (unmarried, deceased)</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
 
       </div>
+
     </div>
   </section>
 </main>
@@ -301,5 +84,9 @@
     <small>© Chettira Family • Preserving heritage for future generations</small>
   </div>
 </footer>
+
+<!-- D3 (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="assets/js/tree.js"></script>
 </body>
 </html>

@@ -1,0 +1,217 @@
+{
+  "name": "Chettira Family (Original Grantees)",
+  "children": [
+    {
+      "name": "Sri Bopaiah",
+      "children": [
+        {
+          "name": "Sri Chinnappa",
+          "children": [
+            {
+              "name": "Sri Devaiah",
+              "children": [
+                { "name": "Kuttappa" },
+                {
+                  "name": "Ganapathy",
+                  "children": [
+                    {
+                      "name": "Wife: Chembavva",
+                      "children": [
+                        { "name": "Subramani" },
+                        { "name": "Belliappa" },
+                        { "name": "Geetha" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Uthappa",
+                  "children": [
+                    {
+                      "name": "Wife: Poovavva",
+                      "children": [
+                        { "name": "Chermanna" },
+                        { "name": "Nethravathy" },
+                        {
+                          "name": "Gangamma",
+                          "children": [
+                            { "name": "Ganapathy" },
+                            { "name": "Sangeetha" },
+                            { "name": "Mandanna" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Sri Joyappa",
+              "children": [
+                {
+                  "name": "Wife: Chinnamma",
+                  "children": [
+                    {
+                      "name": "Nanjappa",
+                      "children": [
+                        {
+                          "name": "Rani",
+                          "children": [
+                            { "name": "Dechamma" },
+                            { "name": "Poonacha" }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Sadashiva",
+                      "children": [
+                        {
+                          "name": "Sumithra",
+                          "children": [
+                            { "name": "Sanchan Somanna" },
+                            { "name": "Samarth Poovanna" }
+                          ]
+                        }
+                      ]
+                    },
+                    { "name": "Bollamma" },
+                    { "name": "Seethamma" },
+                    { "name": "Gangamma" },
+                    { "name": "Gowramma" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sri Subbaiah",
+      "children": [
+        {
+          "name": "Sri Naniappa",
+          "children": [
+            {
+              "name": "Wife: Ponnavva",
+              "children": [
+                {
+                  "name": "Kariappa",
+                  "children": [
+                    {
+                      "name": "Meera",
+                      "children": [
+                        { "name": "Ponnanna" },
+                        { "name": "Dechamma" },
+                        { "name": "Muthamma" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Madappa",
+                  "children": [
+                    {
+                      "name": "Devaki",
+                      "children": [
+                        { "name": "Poovamma" },
+                        { "name": "Dhyan Chengappa" }
+                      ]
+                    }
+                  ]
+                },
+                { "name": "Sharada" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sri Chengappa",
+      "children": [
+        {
+          "name": "Sri Appaji",
+          "children": [
+            {
+              "name": "Wife: Mayamma / Muthavva",
+              "children": [
+                { "name": "Ganapathy (unmarried, deceased)" },
+                {
+                  "name": "Kushalappa",
+                  "children": [
+                    {
+                      "name": "Kaveramma",
+                      "children": [
+                        { "name": "Mandanna" },
+                        { "name": "Bopanna" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Kariappa",
+                  "children": [
+                    {
+                      "name": "Gayathri",
+                      "children": [
+                        { "name": "Harshitha" },
+                        { "name": "Grantha" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Somaiah",
+                  "children": [
+                    {
+                      "name": "Shyla",
+                      "children": [
+                        { "name": "Leelavathy" },
+                        { "name": "Shruthi" },
+                        { "name": "Chondamma" },
+                        { "name": "Thangamma" },
+                        { "name": "Bopaiah" }
+                      ]
+                    }
+                  ]
+                },
+                { "name": "Gangamma" },
+                { "name": "Leelavathy" },
+                { "name": "Parvathy" },
+                { "name": "Yeshodha" },
+                { "name": "A Gangamma" },
+                { "name": "Jayanthi" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Sri Devaiah (Separate)",
+          "children": [
+            {
+              "name": "Bhagyavathy",
+              "children": [
+                {
+                  "name": "Sujatha",
+                  "children": [
+                    {
+                      "name": "Husband: Kuttappa TA",
+                      "children": [
+                        { "name": "Poovamma TK" },
+                        { "name": "Ganapathy TK" }
+                      ]
+                    }
+                  ]
+                },
+                { "name": "Kalaiah (unmarried, deceased)" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
