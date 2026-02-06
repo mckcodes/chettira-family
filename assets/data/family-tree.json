@@ -40,7 +40,7 @@
                         },
                         {
                           "name": "Belliappa",
-                          "photo": "assets/images/people/default.png",
+                          "photo": "assets/images/people/c.belliappa.png",
                           "notes": "Child of Ganapathy and Chembavva."
                         },
                         {
@@ -233,7 +233,7 @@
                 },
                 {
                   "name": "Madappa",
-                  "photo": "assets/images/people/default.png",
+                  "photo": "assets/images/people/n.madappa.png",
                   "notes": "Child of Sri Naniappa and Ponnavva.",
                   "children": [
                     {
@@ -284,7 +284,7 @@
               "children": [
                 {
                   "name": "Ganapathy (unmarried, deceased)",
-                  "photo": "assets/images/people/default.png",
+                  "photo": "assets/images/people/a.ganapathy.jpg",
                   "notes": "Child of Sri Appaji and Mayamma."
                 },
                 {

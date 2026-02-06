@@ -15,9 +15,9 @@
   const DEFAULT_AVATAR = "assets/images/people/default.png";
 
   // Avatar sizing
-  const R_PERSON = 18;  // main node avatar radius
-  const R_SPOUSE = 16;  // spouse node avatar radius
-  const RING = 3;       // white ring thickness
+  const R_PERSON = 62;  // main node avatar radius
+  const R_SPOUSE = 58;  // spouse node avatar radius
+  const RING = 5;       // white ring thickness
 
   function isSpouseNodeName(name) {
     return SPOUSE_RE.test((name || "").trim());
@@ -194,8 +194,8 @@
   const treeContainer = $("tree");
   const width = () => treeContainer.clientWidth || 1200;
 
-  const dx = 26;
-  const dy = 240;
+  const dx = 120;
+  const dy = 300;
 
   const tree = d3.tree().nodeSize([dx, dy]);
   const diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x);
@@ -395,7 +395,7 @@
     nodeEnter.append("text")
       .attr("class", "node-label")
       .attr("dy", "0.32em")
-      .attr("x", d => (d._children ? -(radiusFor(d) + 12) : (radiusFor(d) + 12)))
+      .attr("x", d => (d._children ? -(radiusFor(d) + 30) : (radiusFor(d) + 30)))
       .attr("text-anchor", d => (d._children ? "end" : "start"))
       .attr("fill", d => isSpouseNodeName(d.data?.name || "") ? "#334155" : "#0f172a")
       .style("cursor", "pointer")
@@ -410,7 +410,7 @@
     nodeEnter.filter(d => isSpouseNodeName(d.data?.name || ""))
       .append("text")
       .attr("dy", "1.6em")
-      .attr("x", d => (d._children ? -(radiusFor(d) + 12) : (radiusFor(d) + 12)))
+      .attr("x", d => (d._children ? -(radiusFor(d) + 30) : (radiusFor(d) + 30)))
       .attr("text-anchor", d => (d._children ? "end" : "start"))
       .attr("fill", "#64748b")
       .style("font-weight", 700)
