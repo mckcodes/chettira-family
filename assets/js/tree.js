@@ -1,15 +1,31 @@
 (async function () {
-  // ---------- Helpers ----------
   const $ = (id) => document.getElementById(id);
 
   const BRANCH_COLORS = {
-    "Sri Bopaiah":  "#1d4ed8", // deep blue
-    "Sri Subbaiah": "#0ea5e9", // sky blue
-    "Sri Chengappa":"#6366f1", // indigo
+    "Sri Bopaiah":  "#1d4ed8",
+    "Sri Subbaiah": "#0ea5e9",
+    "Sri Chengappa":"#6366f1",
     "ROOT":         "#2563eb"
   };
 
   const SPOUSE_RE = /^(wife|husband)\s*:/i;
+
+  function isSpouseNodeName(name) {
+    return SPOUSE_RE.test((name || "").trim());
+  }
+
+  function spouseRole(name) {
+    const m = (name || "").trim().match(/^(wife|husband)\s*:/i);
+    return m ? (m[1].toLowerCase() === "wife" ? "Wife" : "Husband") : "";
+  }
+
+  function spousePersonName(name) {
+    return (name || "").replace(SPOUSE_RE, "").trim();
+  }
+
+  function nodeKids(n) {
+    return (n.children || n._children || []);
+  }
 
   function getBranchName(d) {
     if (!d) return "ROOT";
@@ -24,63 +40,76 @@
     return BRANCH_COLORS[b] || BRANCH_COLORS["ROOT"];
   }
 
-  /**
-   * Preprocess tree data to:
-   * 1) Remove spouse nodes from visual hierarchy
-   * 2) Store spouses on the person node: data.spouses[]
-   * 3) Promote spouse-node children as direct children of person
-   *
-   * This keeps spouses visible ONLY in the details card, not as nodes.
-   */
-  function preprocess(node) {
-    const out = { ...node };
-    out.spouses = Array.isArray(out.spouses) ? out.spouses.slice() : [];
-    const children = Array.isArray(node.children) ? node.children : [];
-
-    const normalChildren = [];
-    for (const ch of children) {
-      const name = (ch?.name || "").trim();
-      if (SPOUSE_RE.test(name)) {
-        // Store spouse label (without prefix)
-        const spouseName = name.replace(SPOUSE_RE, "").trim();
-        if (spouseName) out.spouses.push(spouseName);
-
-        // Promote spouse node's children into normal children
-        const spouseKids = Array.isArray(ch.children) ? ch.children : [];
-        for (const kid of spouseKids) normalChildren.push(kid);
-      } else {
-        normalChildren.push(ch);
-      }
-    }
-
-    // Recurse
-    out.children = normalChildren.map(preprocess);
-    return out;
-  }
-
   function setDetails(d) {
     const panel = $("details");
 
     if (!d) {
       panel.innerHTML = `
         <h3>Node Details</h3>
-        <p class="meta">Select a person’s name in the tree to view spouses/children and notes.</p>
-        <p class="kicker">Tip: Add photos via <code>assets/images/people/</code> + JSON field <code>"photo"</code>.</p>
+        <p class="meta">Click any node (circle or name) to view details here.</p>
       `;
       return;
     }
 
     const branch = getBranchName(d);
-    const spouses = Array.isArray(d.data?.spouses) ? d.data.spouses : [];
-    const children = (d.children || d._children || []).map(c => c.data?.name || "").filter(Boolean);
+    const name = d.data?.name || "";
     const notes = d.data?.notes || "";
     const photo = d.data?.photo || "";
+    const kids = nodeKids(d);
+
+    // If this is a spouse node, show who it's attached to and its children
+    if (isSpouseNodeName(name)) {
+      const role = spouseRole(name);
+      const spouseName = spousePersonName(name);
+      const partner = d.parent?.data?.name ? d.parent.data.name : "(unknown)";
+
+      const spouseChildren = kids.map(c => c.data?.name).filter(Boolean);
+
+      panel.innerHTML = `
+        <h3>${spouseName}</h3>
+        <div class="meta">
+          <span class="pill">${role}</span>
+          <span class="pill">Partner: ${partner}</span>
+          <span class="pill">Branch: ${branch.replace("Sri ","")}</span>
+        </div>
+
+        ${
+          spouseChildren.length
+            ? `<strong>Children</strong><ul>${spouseChildren.map(x => `<li>${x}</li>`).join("")}</ul>`
+            : `<p class="kicker">Children: (none listed / not recorded)</p>`
+        }
+
+        ${notes ? `<hr /><strong>Notes</strong><p>${notes}</p>` : ``}
+      `;
+      return;
+    }
+
+    // For a normal person node: spouse nodes are among children
+    const spouseNodes = kids.filter(c => isSpouseNodeName(c.data?.name || ""));
+    const spouses = spouseNodes.map(s => spousePersonName(s.data.name));
+
+    // Children can be:
+    // - direct children nodes (non spouse)
+    // - children under spouse nodes
+    const childrenSet = [];
+    for (const c of kids) {
+      const cname = c.data?.name || "";
+      if (isSpouseNodeName(cname)) {
+        for (const gc of nodeKids(c)) {
+          if (gc.data?.name) childrenSet.push(gc.data.name);
+        }
+      } else {
+        childrenSet.push(cname);
+      }
+    }
+    const children = childrenSet.filter(Boolean);
 
     panel.innerHTML = `
-      <h3>${d.data.name}</h3>
+      <h3>${name}</h3>
       <div class="meta">
         <span class="pill">Branch: ${branch.replace("Sri ","")}</span>
         ${photo ? `<span class="pill">Photo</span>` : ``}
+        ${spouses.length ? `<span class="pill">Spouse</span>` : ``}
       </div>
 
       ${
@@ -144,12 +173,11 @@
     }
   }
 
-  // ---------- Load + preprocess data ----------
-  const raw = await fetch("assets/data/family-tree.json").then(r => r.json());
-  const data = preprocess(raw); // spouses removed from nodes, kept in data.spouses[]
+  // ---------- Load data ----------
+  const data = await fetch("assets/data/family-tree.json").then(r => r.json());
   const root = d3.hierarchy(data);
 
-  // ---------- SVG Setup ----------
+  // ---------- SVG setup ----------
   const treeContainer = $("tree");
   const width = () => treeContainer.clientWidth || 1200;
   const height = () => treeContainer.clientHeight || 700;
@@ -176,23 +204,20 @@
     .on("zoom", (event) => g.attr("transform", event.transform));
   svg.call(zoomBehavior);
 
-  // Initialize ids
+  // IDs
   let i = 0;
   root.each(d => { d.id = ++i; });
 
-  // Default: collapse to depth 2
+  // default collapse depth
   collapseToDepth(root, 2);
 
-  // Current selection/search state
   let selectedId = null;
   let currentQuery = "";
 
   setDetails(null);
 
-  // ---------- Render ----------
   function buildPhotoPatterns(nodes) {
     defs.selectAll("*").remove();
-
     nodes.forEach(d => {
       if (d.data && d.data.photo) {
         const pid = `p-${d.id}`;
@@ -205,20 +230,41 @@
           .attr("href", d.data.photo)
           .attr("preserveAspectRatio", "xMidYMid slice")
           .attr("width", 40)
-          .attr("height", 40)
-          .attr("x", 0)
-          .attr("y", 0);
+          .attr("height", 40);
       }
     });
   }
 
+  function displayLabel(d) {
+    const n = d.data?.name || "";
+    if (isSpouseNodeName(n)) {
+      // show spouse name without "Wife:"/"Husband:" prefix to keep tree tidy
+      return spousePersonName(n);
+    }
+    return n;
+  }
+
   function isMatch(d, q) {
     if (!q) return false;
-    const name = (d.data.name || "").toLowerCase();
-    const spouses = (Array.isArray(d.data.spouses) ? d.data.spouses : [])
-      .join(" ")
-      .toLowerCase();
-    return name.includes(q) || spouses.includes(q);
+    const ql = q.toLowerCase();
+    const rawName = (d.data?.name || "").toLowerCase();
+    const shownName = displayLabel(d).toLowerCase();
+    return rawName.includes(ql) || shownName.includes(ql);
+  }
+
+  function selectNode(d) {
+    selectedId = d.id;
+    setDetails(d);
+  }
+
+  function toggleNode(d) {
+    if (d.children) {
+      d._children = d.children;
+      d.children = null;
+    } else if (d._children) {
+      d.children = d._children;
+      d._children = null;
+    }
   }
 
   function update(source) {
@@ -229,20 +275,19 @@
 
     buildPhotoPatterns(nodes);
 
-    // Compute bounds for viewBox
+    // viewBox bounds
     let left = root, right = root;
     root.eachBefore(n => {
       if (n.x < left.x) left = n;
       if (n.x > right.x) right = n;
     });
+
     const vbW = Math.max(width(), 1100);
     const vbH = (right.x - left.x) + 180;
-
     svg.attr("viewBox", [-80, left.x - 80, vbW, vbH]);
 
     // Links
-    const link = g.selectAll("path.link")
-      .data(links, d => d.target.id);
+    const link = g.selectAll("path.link").data(links, d => d.target.id);
 
     link.enter()
       .append("path")
@@ -261,52 +306,58 @@
     link.exit().remove();
 
     // Nodes
-    const node = g.selectAll("g.node")
-      .data(nodes, d => d.id);
+    const node = g.selectAll("g.node").data(nodes, d => d.id);
 
     const nodeEnter = node.enter()
       .append("g")
       .attr("class", "node")
       .attr("transform", d => `translate(${source.y0 ?? 0},${source.x0 ?? 0})`);
 
-    // Circle: expand/collapse on click
+    // Circle: now does BOTH (open details + toggle expand/collapse)
     nodeEnter.append("circle")
-      .attr("r", 8)
+      .attr("r", d => isSpouseNodeName(d.data?.name || "") ? 7 : 8)
       .attr("fill", d => {
-        if (d.data && d.data.photo) return `url(#p-${d.id})`;
-        return d._children ? getBranchColor(d) : "#60a5fa";
+        // spouse nodes get a lighter fill
+        if (d.data?.photo) return `url(#p-${d.id})`;
+        const c = getBranchColor(d);
+        return isSpouseNodeName(d.data?.name || "") ? "#ffffff" : c;
       })
       .attr("stroke", d => getBranchColor(d))
       .attr("stroke-width", 2)
       .style("cursor", "pointer")
       .on("click", (event, d) => {
         event.stopPropagation();
-        if (d.children) {
-          d._children = d.children;
-          d.children = null;
-        } else if (d._children) {
-          d.children = d._children;
-          d._children = null;
-        }
+        selectNode(d);
+        toggleNode(d);
         update(d);
       });
 
-    // Name text: show details on click
+    // Name: open details (no toggle)
     nodeEnter.append("text")
       .attr("dy", "0.32em")
       .attr("x", d => (d._children ? -14 : 14))
       .attr("text-anchor", d => (d._children ? "end" : "start"))
-      .attr("fill", "#0f172a")
+      .attr("fill", d => isSpouseNodeName(d.data?.name || "") ? "#334155" : "#0f172a")
       .style("cursor", "pointer")
-      .text(d => d.data.name)
+      .text(d => displayLabel(d))
       .on("click", (event, d) => {
         event.stopPropagation();
-        selectedId = d.id;
-        setDetails(d);
+        selectNode(d);
         update(d);
       });
 
-    nodeEnter.append("title").text(d => d.data.name);
+    // small prefix label for spouse nodes: Wife/Husband (muted)
+    nodeEnter.filter(d => isSpouseNodeName(d.data?.name || ""))
+      .append("text")
+      .attr("dy", "1.35em")
+      .attr("x", d => (d._children ? -14 : 14))
+      .attr("text-anchor", d => (d._children ? "end" : "start"))
+      .attr("fill", "#64748b")
+      .style("font-weight", 600)
+      .style("font-size", "11px")
+      .text(d => spouseRole(d.data.name));
+
+    nodeEnter.append("title").text(d => d.data?.name || "");
 
     const nodeMerge = nodeEnter.merge(node);
 
@@ -335,11 +386,9 @@
     const w = width();
     const h = height();
     const scale = 1.0;
-
     const transform = d3.zoomIdentity
       .translate(w / 2 - d.y * scale, h / 2 - d.x * scale)
       .scale(scale);
-
     svg.transition().duration(350).call(zoomBehavior.transform, transform);
   }
 
@@ -403,6 +452,7 @@
     update(root);
   });
 
+  // click background clears selection
   svg.on("click", () => {
     selectedId = null;
     setDetails(null);

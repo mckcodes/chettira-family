@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Family Tree — Chettira Family Heritage</title>
+
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <style>
-    /* Tree page-only layout */
     .tree-layout{
       display:grid;
       grid-template-columns: 1.6fr 0.9fr;
@@ -40,8 +40,6 @@
       border-radius: 10px;
       font-size: 0.95rem;
     }
-
-    /* Tree container */
     #tree{
       height: 72vh;
       min-height: 520px;
@@ -51,23 +49,10 @@
       overflow: hidden;
       box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
     }
-
-    /* Node styles injected by D3 as classes */
-    .node text{
-      font-weight: 650;
-    }
-    .node .label-muted{
-      font-weight: 600;
-      fill: #475569;
-    }
-    .match circle{
-      stroke-width: 4 !important;
-      filter: drop-shadow(0 4px 10px rgba(29, 78, 216, .25));
-    }
-    .selected circle{
-      stroke-width: 4 !important;
-      stroke: #0b2a6f !important;
-      filter: drop-shadow(0 6px 14px rgba(11, 42, 111, .25));
+    .tree-help{
+      margin-top: 10px;
+      color: #475569;
+      font-size: 0.95rem;
     }
 
     /* Details panel */
@@ -92,6 +77,18 @@
     #details ul{ margin: 8px 0 0; padding-left: 18px; }
     #details li{ margin: 6px 0; }
 
+    /* Node visuals */
+    .node text{ font-weight: 650; }
+    .match circle{
+      stroke-width: 4 !important;
+      filter: drop-shadow(0 4px 10px rgba(29, 78, 216, .25));
+    }
+    .selected circle{
+      stroke-width: 4 !important;
+      stroke: #0b2a6f !important;
+      filter: drop-shadow(0 6px 14px rgba(11, 42, 111, .25));
+    }
+
     @media (max-width: 980px){
       .tree-layout{ grid-template-columns: 1fr; }
       #tree{ height: 64vh; }
@@ -105,6 +102,7 @@
     <div class="brand">
       <h1>Chettira Family Heritage</h1>
     </div>
+
     <nav aria-label="Primary">
       <a href="index.html">Home</a>
       <a href="family-tree.html" aria-current="page">Family Tree</a>
@@ -125,13 +123,13 @@
       <div class="card">
         <h2 style="margin-top:0">Interactive Family Tree</h2>
         <p class="kicker">
-          Click a name to view details. Click the circle to expand/collapse. Use mouse/trackpad to zoom & pan.
+          ✅ Spouses are shown in the tree. Click any node (circle or name) to open details. Click again to expand/collapse.
         </p>
 
         <div class="toolbar">
-          <input id="searchInput" type="text" placeholder="Search a name (e.g., Mandanna)..." />
-          <a class="btn primary small" href="#" id="searchBtn">Search</a>
-          <a class="btn secondary small" href="#" id="clearBtn">Clear</a>
+          <input id="searchInput" type="text" placeholder="Search a name (e.g., Mandanna / Mayamma)..." />
+          <a href="#" class="btn primary small" id="searchBtn">Search</a>
+          <a href="#" class="btn secondary small" id="clearBtn">Clear</a>
 
           <span style="flex:1"></span>
 
@@ -143,17 +141,22 @@
             <option value="999">Expanded</option>
           </select>
 
-          <a class="btn secondary small" href="#" id="collapseBtn">Collapse</a>
-          <a class="btn primary small" href="#" id="expandBtn">Expand All</a>
+          <a href="#" class="btn secondary small" id="collapseBtn">Apply</a>
+          <a href="#" class="btn primary small" id="expandBtn">Expand All</a>
         </div>
 
         <div class="tree-layout">
-          <div id="tree"></div>
+          <div>
+            <div id="tree"></div>
+            <div class="tree-help">
+              Tips: Zoom with Ctrl+scroll (or pinch) • Drag to pan • Search will jump to the first match
+            </div>
+          </div>
 
           <div class="card" id="details">
             <h3>Node Details</h3>
-            <p class="meta">Select a person’s name in the tree to view spouse/children and notes.</p>
-            <p class="kicker">Tip: We can add photos by placing images in <code>assets/images/people/</code> and adding <code>"photo"</code> in JSON.</p>
+            <p class="meta">Click any node (circle or name) to view details here.</p>
+            <p class="kicker">Photos: store images in <code>assets/images/people/</code> and set <code>"photo"</code> in JSON.</p>
           </div>
         </div>
 
@@ -169,7 +172,6 @@
   </div>
 </footer>
 
-<!-- D3 + Tree script -->
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="assets/js/tree.js"></script>
 </body>
