@@ -14,31 +14,37 @@
   // Spouse detection in your JSON format
   const SPOUSE_RE = /^(wife|husband)\s*:/i;
 
-  // Default avatar image for everyone (put this file in repo)
+  // Default avatar image
   const DEFAULT_AVATAR = "assets/images/people/default.png";
 
-  // Avatar sizing (BIGGER)
-  const R_PERSON = 26;  // base person radius
-  const R_SPOUSE = 22;  // base spouse radius
-  const RING = 4;       // white ring thickness
+  // Avatar sizing (larger)
+  const R_PERSON = 26;
+  const R_SPOUSE = 22;
+  const RING = 4;
 
   // Root/top ancestors slightly larger
-  const ROOT_BOOST = 8;      // depth 0 boost
-  const TOP_BOOST = 5;       // depth 1 boost (branch ancestors)
-  const SPOUSE_BOOST = 2;    // spouse slight boost
+  const ROOT_BOOST = 8;      // depth 0
+  const TOP_BOOST = 5;       // depth 1
+  const SPOUSE_BOOST = 2;
 
   // Hover animation
-  const HOVER_DELTA = 4;     // how much avatar grows on hover
-  const HOVER_MS = 120;      // hover transition duration (ms)
+  const HOVER_DELTA = 4;
+  const HOVER_MS = 120;
 
   // Font sizes
-  const NAME_FONT_MAIN = 15; // normal names
-  const NAME_FONT_TOP = 16;  // root/top names
-  const ROLE_FONT = 12;      // Wife/Husband label font
+  const NAME_FONT_MAIN = 15;
+  const NAME_FONT_TOP = 16;
+  const ROLE_FONT = 12;
 
-  // Tree spacing (adjusted for bigger avatars)
-  const DX = 36;   // vertical spacing between rows
-  const DY = 300;  // horizontal spacing between generations
+  // Vertical tree spacing:
+  // X = horizontal spacing between siblings
+  // Y = vertical spacing between generations
+  const GAP_X = 140;
+  const GAP_Y = 190;
+
+  // Label positioning (below avatar)
+  const LABEL_GAP = 20;   // distance below circle for name
+  const ROLE_GAP = 38;    // distance below circle for Wife/Husband
 
   // -----------------------------
   // Helpers
@@ -161,9 +167,6 @@
     const spouseNodes = kids.filter(c => isSpouseNodeName(c.data?.name || ""));
     const spouses = spouseNodes.map(s => spousePersonName(s.data.name));
 
-    // Children list includes:
-    // - direct non-spouse children
-    // - children under spouse nodes
     const childrenSet = [];
     for (const c of kids) {
       const cname = c.data?.name || "";
@@ -252,14 +255,15 @@
   const root = d3.hierarchy(data);
 
   // -----------------------------
-  // SVG setup
+  // SVG setup (VERTICAL TREE)
   // -----------------------------
   const treeContainer = $("tree");
   const width = () => treeContainer?.clientWidth || 1200;
   const height = () => treeContainer?.clientHeight || 700;
 
-  const tree = d3.tree().nodeSize([DX, DY]);
-  const diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x);
+  // nodeSize([x, y]) => x is horizontal, y is vertical in our vertical layout
+  const tree = d3.tree().nodeSize([GAP_X, GAP_Y]);
+  const diagonal = d3.linkVertical().x(d => d.x).y(d => d.y);
 
   const svg = d3.select("#tree")
     .append("svg")
@@ -314,7 +318,7 @@
   setDetails(null);
 
   // -----------------------------
-  // Clip paths (avatar circular crop)
+  // Clip paths for circular crop
   // -----------------------------
   function ensureClipPaths(nodes) {
     const clips = defs.selectAll("clipPath.avatar-clip")
@@ -346,16 +350,11 @@
       .attr("width", r * 2).attr("height", r * 2);
     groupSel.select("circle.avatar-ring").attr("r", r);
 
-    // keep clipping perfect
     setClipRadius(d, r);
 
-    // update label distance
-    groupSel.select("text.node-label")
-      .attr("x", d._children ? -(r + 16) : (r + 16));
-
-    // spouse role label distance (if exists)
-    groupSel.select("text.role-label")
-      .attr("x", d._children ? -(r + 16) : (r + 16));
+    // Update label positions below circle
+    groupSel.select("text.node-label").attr("y", r + LABEL_GAP);
+    groupSel.select("text.role-label").attr("y", r + ROLE_GAP);
   }
 
   function selectNode(d) {
@@ -384,18 +383,26 @@
 
     ensureClipPaths(nodes);
 
-    // ViewBox bounds
-    let left = root, right = root;
-    root.eachBefore(n => {
-      if (n.x < left.x) left = n;
-      if (n.x > right.x) right = n;
+    // Compute viewBox based on x/y bounds (vertical layout)
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    root.each(n => {
+      if (n.x < minX) minX = n.x;
+      if (n.x > maxX) maxX = n.x;
+      if (n.y < minY) minY = n.y;
+      if (n.y > maxY) maxY = n.y;
     });
 
-    const vbW = Math.max(width(), 1100);
-    const vbH = (right.x - left.x) + 260;
-    svg.attr("viewBox", [-120, left.x - 130, vbW, vbH]);
+    const padX = 160;
+    const padY = 180;
 
-    // Links
+    svg.attr("viewBox", [
+      minX - padX,
+      minY - padY,
+      (maxX - minX) + padX * 2,
+      (maxY - minY) + padY * 2
+    ]);
+
+    // Links (vertical)
     const link = g.selectAll("path.link").data(links, d => d.target.id);
 
     link.enter()
@@ -420,7 +427,7 @@
     const nodeEnter = node.enter()
       .append("g")
       .attr("class", "node")
-      .attr("transform", d => `translate(${source.y0 ?? 0},${source.x0 ?? 0})`);
+      .attr("transform", d => `translate(${source.x0 ?? 0},${source.y0 ?? 0})`);
 
     // Hover: gently enlarge avatar
     nodeEnter
@@ -444,7 +451,7 @@
         setAvatarSize(gsel, d, r);
       });
 
-    // Background circle (also handles click: details + toggle)
+    // Background circle (click: details + toggle)
     nodeEnter.append("circle")
       .attr("class", "avatar-bg")
       .attr("r", d => radiusFor(d))
@@ -477,11 +484,10 @@
         update(d);
       })
       .on("error", function () {
-        // If image fails to load, remove it (initials will remain if configured)
         d3.select(this).attr("href", null);
       });
 
-    // Initials fallback (shown only if no explicit photo AND default avatar fails)
+    // Initials fallback (if no explicit photo)
     nodeEnter.append("text")
       .attr("class", "avatar-initials")
       .attr("text-anchor", "middle")
@@ -492,7 +498,7 @@
       .text(d => d.data?.photo ? "" : initialsFor(d.data?.name || ""))
       .style("pointer-events", "none");
 
-    // White ring + shadow (selection glow applied later)
+    // White ring + shadow
     nodeEnter.append("circle")
       .attr("class", "avatar-ring")
       .attr("r", d => radiusFor(d))
@@ -502,12 +508,12 @@
       .style("filter", "url(#avatarShadow)")
       .style("pointer-events", "none");
 
-    // Name label
+    // Name label (below avatar)
     nodeEnter.append("text")
       .attr("class", "node-label")
-      .attr("dy", "0.32em")
-      .attr("x", d => (d._children ? -(radiusFor(d) + 16) : (radiusFor(d) + 16)))
-      .attr("text-anchor", d => (d._children ? "end" : "start"))
+      .attr("x", 0)
+      .attr("y", d => radiusFor(d) + LABEL_GAP)
+      .attr("text-anchor", "middle")
       .attr("fill", d => isSpouseNodeName(d.data?.name || "") ? "#334155" : "#0f172a")
       .style("cursor", "pointer")
       .style("font-size", d => (d.depth <= 1 ? `${NAME_FONT_TOP}px` : `${NAME_FONT_MAIN}px`))
@@ -519,13 +525,13 @@
         update(d);
       });
 
-    // Spouse role label (Wife/Husband)
+    // Spouse role label below name
     nodeEnter.filter(d => isSpouseNodeName(d.data?.name || ""))
       .append("text")
       .attr("class", "role-label")
-      .attr("dy", "1.6em")
-      .attr("x", d => (d._children ? -(radiusFor(d) + 16) : (radiusFor(d) + 16)))
-      .attr("text-anchor", d => (d._children ? "end" : "start"))
+      .attr("x", 0)
+      .attr("y", d => radiusFor(d) + ROLE_GAP)
+      .attr("text-anchor", "middle")
       .attr("fill", "#64748b")
       .style("font-weight", 800)
       .style("font-size", `${ROLE_FONT}px`)
@@ -535,7 +541,6 @@
 
     const nodeMerge = nodeEnter.merge(node);
 
-    // Apply match/selected classes (for potential CSS)
     nodeMerge
       .classed("selected", d => d.id === selectedId)
       .classed("match", d => isMatch(d, currentQuery));
@@ -546,7 +551,7 @@
       .attr("stroke-width", d => (d.id === selectedId) ? (RING + 2) : RING);
 
     nodeMerge.transition().duration(250)
-      .attr("transform", d => `translate(${d.y},${d.x})`);
+      .attr("transform", d => `translate(${d.x},${d.y})`);
 
     node.exit().remove();
 
@@ -568,9 +573,12 @@
     const w = width();
     const h = height();
     const scale = 1.0;
+
+    // Vertical layout: x is horizontal, y is vertical
     const transform = d3.zoomIdentity
-      .translate(w / 2 - d.y * scale, h / 2 - d.x * scale)
+      .translate(w / 2 - d.x * scale, h / 2 - d.y * scale)
       .scale(scale);
+
     svg.transition().duration(350).call(zoomBehavior.transform, transform);
   }
 
