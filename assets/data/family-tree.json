@@ -20,7 +20,7 @@
               "children": [
                 {
                   "name": "Kuttappa",
-                  "photo": "assets/images/people/default.png",
+                  "photo": "assets/images/people/c.kuttappa.jpg",
                   "notes": "Child of Sri Devaiah."
                 },
                 {
@@ -102,7 +102,7 @@
             },
             {
               "name": "Sri Joyappa",
-              "photo": "assets/images/people/default.png",
+              "photo": "assets/images/people/c.joyappa.jpg",
               "notes": "Child of Sri Chinnappa. Spouse: Chinnamma.",
               "children": [
                 {
@@ -274,12 +274,12 @@
       "children": [
         {
           "name": "Sri Appaji",
-          "photo": "assets/images/people/default.png",
+          "photo": "assets/images/people/appaji.jpg",
           "notes": "Child of Sri Chengappa. Spouse: Mayamma / Muthavva.",
           "children": [
             {
               "name": "Wife: Mayamma / Muthavva",
-              "photo": "assets/images/people/default.png",
+              "photo": "assets/images/people/a.mayamma.jpg",
               "notes": "Wife of Sri Appaji.",
               "children": [
                 {
