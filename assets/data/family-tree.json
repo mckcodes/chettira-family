@@ -417,17 +417,17 @@
         },
 
         {
-          "name": "Sri Devaiah (Separate)",
+          "name": "Sri Devaiah",
           "photo": "assets/images/people/default.png",
           "notes": "Independent branch under Sri Chengappa.",
           "children": [
             {
-              "name": "Bhagyavathy",
+              "name": "Wife: Bhagyavathy",
               "photo": "assets/images/people/default.png",
-              "notes": "Child of Sri Devaiah (Separate).",
+              "notes": "Wife of Sri Devaiah.",
               "children": [
                 {
-                  "name": "Sujatha",
+                  "name": "Billi / Sujatha (unmarried, deceased)",
                   "photo": "assets/images/people/default.png",
                   "notes": "Child of Bhagyavathy. Spouse: Kuttappa TA.",
                   "children": [
@@ -449,13 +449,18 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "name": "Paapu / Kalaiah (unmarried, deceased)",
+                  "photo": "assets/images/people/default.png",
+                  "notes": "Child of Sri Devaiah."
+                },
+                {
+                  "name": "Bindhu (unmarried, deceased)",
+                  "photo": "assets/images/people/default.png",
+                  "notes": "Child of Sri Devaiah."
                 }
               ]
-            },
-            {
-              "name": "Kalaiah (unmarried, deceased)",
-              "photo": "assets/images/people/default.png",
-              "notes": "Child of Sri Devaiah (Separate)."
             }
           ]
         }
