@@ -130,10 +130,6 @@ nav a[aria-current="page"]{
 }
 
 /* Add subtle vertical divider between nav links */
-nav a + a{
-  /* rely on flex gap; avoid extra margin that creates large gaps */
-}
-
 nav a + a::before{
   content: "";
   position: absolute;
@@ -410,7 +406,8 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus{
 
 /* Cards / Grid */
 .card{
-  background: var(--surface);\n  border: 1px solid var(--border);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
