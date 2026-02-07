@@ -9,11 +9,13 @@
     if (theme === "light") {
       document.body.setAttribute("data-theme", "light");
       toggle.setAttribute("aria-pressed", "true");
-      toggle.textContent = "Dark";
+      toggle.setAttribute("aria-label", "Switch to dark theme");
+      toggle.textContent = "Light";
     } else {
       document.body.removeAttribute("data-theme");
       toggle.setAttribute("aria-pressed", "false");
-      toggle.textContent = "Light";
+      toggle.setAttribute("aria-label", "Switch to light theme");
+      toggle.textContent = "Dark";
     }
   }
 

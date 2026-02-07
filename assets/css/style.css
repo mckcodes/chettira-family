@@ -100,22 +100,52 @@ header{
 }
 
 .theme-toggle{
+  position: relative;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--surface-gloss);
   color: var(--ink);
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 6px 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0 10px 0 26px;
+  width: 72px;
+  min-width: 72px;
+  height: 24px;
+  text-align: center;
   cursor: pointer;
-  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.theme-toggle::before{
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: left 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+body[data-theme="light"] .theme-toggle::before{
+  left: calc(100% - 23px);
+}
+
+body[data-theme="light"] .theme-toggle{
+  padding: 0 26px 0 10px;
 }
 
 .theme-toggle:hover{
   transform: translateY(-1px);
   border-color: var(--brand-2);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 10px 22px rgba(0, 0, 0, 0.35);
 }
 
 .theme-toggle:focus-visible{
