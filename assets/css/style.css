@@ -212,6 +212,10 @@ nav a + a::before{
   background: rgba(255, 255, 255, 0.18);
   border-radius: 1px;
 }
+
+body[data-theme="light"] nav a + a::before{
+  background: rgba(0, 0, 0, 0.18);
+}
 /* Search feature temporarily removed */
 
 
